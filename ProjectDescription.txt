@@ -1,0 +1,14 @@
+Title: Machine learning models predict the potency of novel generated inhibitors of the BACE1 receptor
+
+Alzheimer’s disease (AD) is a progressive, neurodegenerative disease which is the mean cause of dementia. AD mainly occurs in the elderly, and because of the aging of the worldwide population, AD is increasing public health concern. Therefore, AD is defined as a research priority. 
+
+The exact origin of AD is not yet completely known. However, it is known that the proteins beta-amyloïd (Aβ) and tau (τ) play an important role. Aβ is a protein that is synthesized from the amyloid precursor protein (APP). As result of a change in metabolism, this protein can be cleaved differently, giving it a length of 40 to 42 amino acids. These proteins can aggregate easy, which can result in oligomers. These oligomers are the most toxic, but the monomers are harmful as well. The protein dissolves in the cerebrospinal fluid outside the cells and thus spreads throughout the brain.
+The cleavage of APP can be done by three different enzymes, namely α-, β- en γ-secretase. When the protein is cleaved by only the β en γ secretase, the Aβ protein is released. These can aggregate and from amyloid fibrils, which can in the end result in neurofibrillary degeneration. 
+
+To this date, there is no therapy for AD. There are only symptom relieving drugs, like acetylcholine. There are different therapeutic suggestions. One of these is that the production of Aβ can be inhibited by influencing the cleavage of APP. This can in multiple ways, by inhibiting the β- or γ-secretase or by simulating the α secretase. Currently there are only active trials for the inhibition of β secretase, as the others have failed. 
+
+Beta-site amyloid precursor protein cleaving enzyme 1 (BACE1) is one of the major β secretase in neurons. This makes inhibitors with high potency for the BACE1 receptor a potent strategy as treatment for AD. 
+
+The aim of this in silico project is to present novel, promising compounds for inhibition of the BACE1 receptor. To this end are synthesizable molecules with potency for the BACE1 receptor in silico generated with DrugEx. These molecules are filtered for druglikeness. Next, the potency of the compounds are predicted with two machine learning models; a random forest regression model and a neuron network model. These models are trained and validated with druglike filtered bioactivity data fetched from ChEMBL. The protein ligand interaction of the compounds with the highest potency are visualised. Moreover, the binding energies of these compounds are calculated with free energy perturbation. 
+
+An overview of the workflow is shown in figure 1. 
