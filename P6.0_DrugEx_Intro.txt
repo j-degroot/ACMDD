@@ -1,5 +1,0 @@
-Based on the scaffold prepared in the previous part novel chemical structures could be generated with Scaffold-Constrained Drug Design with Graph Transformer-based Reinforcement Learning of DrugEx v3. However, for this project we could only use the DrugEx-Demo. This demo will generate novel chemical structures as ligands for the BACE receptor, but without input of the desired scaffold. 
-The DrugEx parts (P6.1_DrugEx_data_prep, P6.2_DrugEx_qsar and P6.3_DrugEx_de_novo) need te be run on google colab, as it acquire GPU. 
-The file with the 1000 generated compounds (generated.tsv) is downloaded and added to the data folder. 
-
-[Meer informatie over DrugEx, hoe het werkt etc.?]
