@@ -3,7 +3,7 @@ from torch.nn import Linear
 import torch.nn.functional as F
 from torch_geometric.nn.pool import global_max_pool
 from torch_geometric.nn.models import GAT
-from gnn_utils.data_loading import dfs2dataloader
+from gnn_utils.data_loading import list2dataloader
 
 import torch
 
@@ -23,18 +23,19 @@ class GNN(torch.nn.Module):
         self.lin = Linear(64, 256, 'relu')
         self.final = Linear(256, 1)
 
-
     def forward(self, data):
-        # unpacking data
+        # 1. Unpacking data
         node_features = data.x.to(torch.float)
         edge_indices = data.edge_index
         edge_features = data.edge_attr.to(torch.float)
+
+        # 2. Data through graph layers
         x = self.gnn(x=node_features, edge_index=edge_indices, edge_attr=edge_features)
 
-        # 2. Graph pooling
+        # 3. Graph pooling
         x = global_max_pool(x, data.batch)
 
-        # 3. Fully connected layers
+        # 4. Fully connected layers
         x = F.dropout(x, p=0.3, training=self.training)
         x = self.lin(x)
         x = F.dropout(x, p=0.3, training=self.training)
@@ -42,7 +43,7 @@ class GNN(torch.nn.Module):
 
         return x
 
-def nn_training_and_validation(name, splits, num_epochs=200, verbose=True):
+def nn_training_and_validation(name, splits, num_epochs=200):
     """
     Fit a machine learning model on a random train-test split of the data
     and return the performance measures.
@@ -71,9 +72,9 @@ def nn_training_and_validation(name, splits, num_epochs=200, verbose=True):
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     criterion = torch.nn.MSELoss()
 
-    # change pd.DataFrame to torch_geometric.loader.DataLoader
-    train_dataloader = dfs2dataloader(train_x, train_y)
-    test_dataloader = dfs2dataloader(test_x, test_y)
+    # change list to torch_geometric.loader.DataLoader
+    train_dataloader = list2dataloader(train_x, train_y)
+    test_dataloader = list2dataloader(test_x, test_y)
     # print(train_dataloader)
     # print(test_dataloader)
 

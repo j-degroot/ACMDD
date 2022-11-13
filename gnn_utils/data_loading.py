@@ -1,8 +1,8 @@
 import torch
-import pandas as pd
 
 from torch_geometric.data import Dataset, Data
 from torch_geometric.loader import DataLoader
+
 
 class GraphDataset(Dataset):
     """
@@ -13,14 +13,16 @@ class GraphDataset(Dataset):
         self.x = x
         self.y = y
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.y)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> (Data, float):
         return self.x[idx], self.y[idx]
 
 
-def dfs2dataloader(x: [Data], y: [Data]) -> DataLoader:
+def list2dataloader(x: [Data], y: [Data]) -> DataLoader:
+    x.x = x.x.to(torch.float)
+    x.edge_attr = x.edge_attr(torch.float)
     dataset = GraphDataset(x, y)
     dataloader = DataLoader(dataset=dataset,
                             batch_size=64,
