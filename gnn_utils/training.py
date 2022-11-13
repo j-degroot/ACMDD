@@ -19,25 +19,22 @@ class GNN(torch.nn.Module):
         self.gnn = GAT(in_channels=9, edge_dim=3, hidden_channels=64, num_layers=5, out_channels=out_channels, v2=True,
                        heads=8, jk='cat', norm=torch.nn.BatchNorm1d(num_features=64))
 
-        # self.gnn = GIN(in_channels=9, hidden_channels=128, num_layers=4, out_channels=out_channels, jk='last',
-        #                norm=torch.nn.BatchNorm1d(num_features=128))
-
         # final fully connected linear from the embedded molecule
         self.lin = Linear(64, 256, 'relu')
         self.final = Linear(256, 1)
 
 
     def forward(self, data):
-        x = data.x.to(torch.float)
-        edge_attr = data.edge_attr.to(torch.float)
-        x = self.gnn(x=x, edge_index=data.edge_index, edge_attr=edge_attr)
-        # x = self.gnn(x=x, edge_index=data.edge_index)
+        # unpacking data
+        node_features = data.x.to(torch.float)
+        edge_indices = data.edge_index
+        edge_features = data.edge_attr.to(torch.float)
+        x = self.gnn(x=node_features, edge_index=edge_indices, edge_attr=edge_features)
 
-        # 2. Readout layer
-        x = global_max_pool(x, data.batch)  # [batch_size, hidden_channels]
+        # 2. Graph pooling
+        x = global_max_pool(x, data.batch)
 
-
-        # 3. Apply a final classifier
+        # 3. Fully connected layers
         x = F.dropout(x, p=0.3, training=self.training)
         x = self.lin(x)
         x = F.dropout(x, p=0.3, training=self.training)
