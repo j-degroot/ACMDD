@@ -1,3 +1,5 @@
+# this script trains a PyTorch Geometric GNN with low training abstraction
+
 import numpy as np
 from torch.nn import Linear
 import torch.nn.functional as F
@@ -43,7 +45,7 @@ class GNN(torch.nn.Module):
 
         return x
 
-def nn_training_and_validation(name, splits, num_epochs=200):
+def nn_training_and_validation(name, splits, num_epochs=100):
     """
     Fit a machine learning model on a random train-test split of the data
     and return the performance measures.
@@ -68,6 +70,7 @@ def nn_training_and_validation(name, splits, num_epochs=200):
     """
     train_x, test_x, train_y, test_y = splits
 
+    # define GNN model
     model = GNN()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     criterion = torch.nn.MSELoss()
@@ -75,10 +78,8 @@ def nn_training_and_validation(name, splits, num_epochs=200):
     # change list to torch_geometric.loader.DataLoader
     train_dataloader = list2dataloader(train_x, train_y)
     test_dataloader = list2dataloader(test_x, test_y)
-    # print(train_dataloader)
-    # print(test_dataloader)
 
-    # training is from: PyG tutorial 3 (I believe - check still)
+    # training is based on: PyG tutorial 3 - https://colab.research.google.com/drive/1I8a0DfQ3fI7Njc62__mVXUlcAleUclnb?usp=sharing
     def train():
         model.train()
 
